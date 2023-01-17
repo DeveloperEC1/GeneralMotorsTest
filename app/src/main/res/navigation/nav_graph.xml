@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/contacts_list_graph">
+
+    <navigation
+        android:id="@+id/contacts_list_graph"
+        app:startDestination="@id/contacts_list_fragment">
+
+        <action
+            android:id="@+id/action_navigate_to_contact_info_fragment"
+            app:destination="@id/contact_info_graph" />
+
+        <fragment
+            android:id="@+id/contacts_list_fragment"
+            android:name="com.example.generalmotorstest.presentation.pages.fragments.contacts_list_fragment.ContactsListFragment" />
+    </navigation>
+
+    <navigation
+        android:id="@+id/contact_info_graph"
+        app:startDestination="@id/contact_info_fragment">
+
+        <fragment
+            android:id="@+id/contact_info_fragment"
+            android:name="com.example.generalmotorstest.presentation.pages.fragments.contact_info_fragment.ContactInfoFragment" />
+    </navigation>
+</navigation>
