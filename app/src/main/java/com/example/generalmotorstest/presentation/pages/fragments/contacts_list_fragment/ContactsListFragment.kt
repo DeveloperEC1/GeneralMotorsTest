@@ -32,6 +32,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.generalmotorstest.data.models.Contacts
 import com.example.generalmotorstest.presentation.pages.fragments.BaseFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 

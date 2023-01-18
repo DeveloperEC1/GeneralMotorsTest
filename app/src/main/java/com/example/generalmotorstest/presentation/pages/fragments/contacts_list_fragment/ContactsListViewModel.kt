@@ -9,6 +9,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.generalmotorstest.core.MyApplication
 import com.example.generalmotorstest.data.models.Contacts
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -39,9 +42,13 @@ class ContactsListViewModel : ViewModel() {
                 }
             }
 
-            setContactsToContactsList(resultList)
+            CoroutineScope(Dispatchers.Main).launch {
+                setContactsToContactsList(resultList)
+            }
         } else {
-            setContactsToContactsList(getAllContacts())
+            CoroutineScope(Dispatchers.Main).launch {
+                setContactsToContactsList(getAllContacts())
+            }
         }
     }
 
