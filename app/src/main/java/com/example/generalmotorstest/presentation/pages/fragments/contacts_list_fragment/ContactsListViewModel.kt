@@ -39,7 +39,7 @@ class ContactsListViewModel : ViewModel() {
             val resultList = ArrayList<Contacts>()
 
             for (data in contactsList) {
-                if (data.fullName?.lowercase(Locale.getDefault())
+                if (data.firstName?.lowercase(Locale.getDefault())
                         ?.contains(searchedText, ignoreCase = true) == true
                 ) {
                     resultList.add(data)
@@ -59,7 +59,6 @@ class ContactsListViewModel : ViewModel() {
         val cursor = cr.query(
             ContactsContract.Contacts.CONTENT_URI, arrayOf(
                 ContactsContract.Contacts._ID,
-                ContactsContract.Contacts.DISPLAY_NAME,
                 ContactsContract.Contacts.HAS_PHONE_NUMBER,
             ),
             null, null, null
@@ -72,18 +71,52 @@ class ContactsListViewModel : ViewModel() {
                     cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))
 
                 if (hasPhone > 0) {
-                    var fullName = ""
-                    var phone = ""
+                    var firstName = ""
+                    var lastName = ""
+                    var phoneNumber = ""
                     var email = ""
-                    var image: Uri? = null
+                    var profileImage: Uri? = null
 
-                    try {
-                        fullName =
-                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                    } catch (_: Exception) {
+                    // First Name + Last Name - Start
+                    val whereName =
+                        ContactsContract.Data.MIMETYPE + " = ? AND " + ContactsContract.CommonDataKinds.StructuredName.CONTACT_ID + " = ?"
+                    val whereNameParams =
+                        arrayOf(
+                            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE,
+                            id,
+                        )
+                    val cn = MyApplication.application.contentResolver.query(
+                        ContactsContract.Data.CONTENT_URI,
+                        null,
+                        whereName,
+                        whereNameParams,
+                        ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME
+                    )
 
+                    while (cn!!.moveToNext()) {
+                        // First Name - Start
+                        try {
+                            firstName =
+                                cn.getString(cn.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME))
+                        } catch (_: Exception) {
+
+                        }
+                        // First Name - End
+
+                        // Last Name - Start
+                        try {
+                            lastName =
+                                cn.getString(cn.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME))
+                        } catch (_: Exception) {
+
+                        }
+                        // Last Name - End
                     }
 
+                    cn.close()
+                    // First Name + Last Name - End
+
+                    // Phone Number - Start
                     try {
                         val cp = cr.query(
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -92,15 +125,18 @@ class ContactsListViewModel : ViewModel() {
                             arrayOf(id),
                             null,
                         )
+
                         if (cp != null && cp.moveToFirst()) {
-                            phone =
+                            phoneNumber =
                                 cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                             cp.close()
                         }
                     } catch (_: Exception) {
 
                     }
+                    // Phone Number - End
 
+                    // Email - Start
                     try {
                         val ce = cr.query(
                             ContactsContract.CommonDataKinds.Email.CONTENT_URI,
@@ -109,6 +145,7 @@ class ContactsListViewModel : ViewModel() {
                             arrayOf(id),
                             null,
                         )
+
                         if (ce != null && ce.moveToFirst()) {
                             email =
                                 ce.getString(ce.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA))
@@ -117,25 +154,30 @@ class ContactsListViewModel : ViewModel() {
                     } catch (_: Exception) {
 
                     }
+                    // Email - End
 
+                    // Profile Image - Start
                     try {
                         val person = ContentUris.withAppendedId(
                             ContactsContract.Contacts.CONTENT_URI,
                             id.toLong()
                         )
-                        image = Uri.withAppendedPath(
+
+                        profileImage = Uri.withAppendedPath(
                             person,
                             ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
                         )
                     } catch (_: Exception) {
 
                     }
+                    // Profile Image - End
 
                     val contact = Contacts(
-                        fullName,
-                        phone,
+                        firstName,
+                        lastName,
+                        phoneNumber,
                         email,
-                        image
+                        profileImage
                     )
                     contactsModelArr.add(contact)
                 }

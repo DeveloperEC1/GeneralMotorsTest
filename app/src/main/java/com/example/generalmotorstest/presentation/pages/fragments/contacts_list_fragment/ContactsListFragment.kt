@@ -143,7 +143,7 @@ class ContactsListFragment : BaseFragment() {
                 .fillMaxSize()
                 .padding(bottom = 10.dp),
         ) {
-            val uri = contact.image
+            val uri = contact.profileImage
 
             if (uri != null) {
                 val bitmap = contactsListViewModel.convertUriToBitmap(uri)
@@ -164,7 +164,7 @@ class ContactsListFragment : BaseFragment() {
                             .size(50.dp),
                     ) {
                         Text(
-                            contact.fullName!![0].toString(),
+                            contact.firstName!![0].toString(),
                             textAlign = TextAlign.Center,
                         )
                     }
@@ -172,7 +172,7 @@ class ContactsListFragment : BaseFragment() {
             }
 
             Text(
-                "Full Name: ${contact.fullName!!}",
+                "Person Name: ${contact.firstName!!} ${contact.lastName!!}",
                 fontSize = 20.sp
             )
         }
