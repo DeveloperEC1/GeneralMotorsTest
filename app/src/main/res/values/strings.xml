@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">GeneralMotorsTest</string>
     <string name="read_contacts_permission_not_granted">The Permission to get contacts was not granted.</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_numbers">Phone Numbers</string>
+    <string name="emails">Emails</string>
+    <string name="person_name">Person Name</string>
+    <string name="home">Home</string>
+    <string name="mobile">Mobile</string>
+    <string name="work">Work</string>
+    <string name="work_fax">Work fax</string>
+    <string name="home_fax">Home fax</string>
+    <string name="pager">Pager</string>
+    <string name="other">Other</string>
+    <string name="callback">Callback</string>
+    <string name="custom">Custom</string>
 </resources>

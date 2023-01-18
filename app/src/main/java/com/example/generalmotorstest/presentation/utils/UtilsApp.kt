@@ -5,6 +5,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import com.example.generalmotorstest.R
 import com.example.generalmotorstest.core.MyApplication
 
 object UtilsApp {
@@ -26,18 +27,18 @@ object UtilsApp {
     }
 
     fun getTypeContact(typeNum: String): String {
-        var type = "Custom"
+        var type = MyApplication.application.getString(R.string.custom)
 
         when (typeNum) {
-            "1" -> type = "Home"
-            "2" -> type = "Mobile"
-            "3" -> type = "Work"
-            "4" -> type = "Work fax"
-            "5" -> type = "Home fax"
-            "6" -> type = "Pager"
-            "7" -> type = "Other"
-            "8" -> type = "Callback"
-            "9" -> type = "Custom"
+            "1" -> type = MyApplication.application.getString(R.string.home)
+            "2" -> type = MyApplication.application.getString(R.string.mobile)
+            "3" -> type = MyApplication.application.getString(R.string.work)
+            "4" -> type = MyApplication.application.getString(R.string.work_fax)
+            "5" -> type = MyApplication.application.getString(R.string.home_fax)
+            "6" -> type = MyApplication.application.getString(R.string.pager)
+            "7" -> type = MyApplication.application.getString(R.string.other)
+            "8" -> type = MyApplication.application.getString(R.string.callback)
+            "9" -> type = MyApplication.application.getString(R.string.custom)
         }
 
         return type

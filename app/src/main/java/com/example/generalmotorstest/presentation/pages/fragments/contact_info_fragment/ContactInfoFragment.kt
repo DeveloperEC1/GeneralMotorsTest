@@ -13,9 +13,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import com.example.generalmotorstest.ContactInfoGraphArgs
+import com.example.generalmotorstest.R
 import com.example.generalmotorstest.data.models.ContactTypeData
 import com.example.generalmotorstest.presentation.pages.fragments.BaseFragment
 import com.example.generalmotorstest.presentation.widgets.ProfileImageContactWidget
@@ -77,26 +79,26 @@ class ContactInfoFragment : BaseFragment() {
 
     @Composable
     private fun FirstNameContact() {
-        TextContactWidget("First Name: ${contactInfoViewModel.contactInfo?.firstName!!}")
+        TextContactWidget("${stringResource(R.string.first_name)}: ${contactInfoViewModel.contactInfo?.firstName!!}")
     }
 
     @Composable
     private fun LastNameContact() {
-        TextContactWidget("Last Name: ${contactInfoViewModel.contactInfo?.lastName!!}")
+        TextContactWidget("${stringResource(R.string.last_name)}: ${contactInfoViewModel.contactInfo?.lastName!!}")
     }
 
     @Composable
     private fun PhoneNumbersContact() {
         val phoneNumberList = contactInfoViewModel.contactInfo?.phoneNumberList!!
 
-        TypeDataListContact("Phone Numbers:", phoneNumberList)
+        TypeDataListContact("${stringResource(R.string.phone_numbers)}:", phoneNumberList)
     }
 
     @Composable
     private fun EmailsContact() {
         val emailList = contactInfoViewModel.contactInfo?.emailList!!
 
-        TypeDataListContact("Emails:", emailList)
+        TypeDataListContact("${stringResource(R.string.emails)}:", emailList)
     }
 
     @Composable
@@ -105,11 +107,16 @@ class ContactInfoFragment : BaseFragment() {
         SpacerHeightWidget(5)
         Column {
             typeDataListContact.forEach { contact ->
-                Row {
-                    SpacerWidthWidget(20)
-                    TextContactWidget("${contact.type}: ${contact.label}")
-                }
+                TypeDataContactItem(contact)
             }
+        }
+    }
+
+    @Composable
+    private fun TypeDataContactItem(contactTypeData: ContactTypeData) {
+        Row {
+            SpacerWidthWidget(20)
+            TextContactWidget("${contactTypeData.type}: ${contactTypeData.label}")
         }
     }
     // UI functions - End
