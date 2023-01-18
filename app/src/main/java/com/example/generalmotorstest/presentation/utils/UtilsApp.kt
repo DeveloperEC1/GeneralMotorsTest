@@ -25,4 +25,22 @@ object UtilsApp {
         return bitmap
     }
 
+    fun getTypeContact(typeNum: String): String {
+        var type = "Custom"
+
+        when (typeNum) {
+            "1" -> type = "Home"
+            "2" -> type = "Mobile"
+            "3" -> type = "Work"
+            "4" -> type = "Work fax"
+            "5" -> type = "Home fax"
+            "6" -> type = "Pager"
+            "7" -> type = "Other"
+            "8" -> type = "Callback"
+            "9" -> type = "Custom"
+        }
+
+        return type
+    }
+
 }

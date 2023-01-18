@@ -8,7 +8,9 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.generalmotorstest.core.MyApplication
+import com.example.generalmotorstest.data.models.ContactTypeData
 import com.example.generalmotorstest.data.models.Contacts
+import com.example.generalmotorstest.presentation.utils.UtilsApp.getTypeContact
 import java.util.*
 
 class ContactsListViewModel : ViewModel() {
@@ -69,8 +71,8 @@ class ContactsListViewModel : ViewModel() {
                 if (hasPhone > 0) {
                     var firstName = ""
                     var lastName = ""
-                    var phoneNumber = ""
-                    var email = ""
+                    val phoneNumber: ArrayList<ContactTypeData> = arrayListOf()
+                    val email: ArrayList<ContactTypeData> = arrayListOf()
                     var profileImage: Uri? = null
 
                     // First Name + Last Name - Start
@@ -122,11 +124,16 @@ class ContactsListViewModel : ViewModel() {
                             null,
                         )
 
-                        if (cp != null && cp.moveToFirst()) {
-                            phoneNumber =
-                                cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                            cp.close()
+                        while (cp!!.moveToNext()) {
+                            phoneNumber.add(
+                                ContactTypeData(
+                                    getTypeContact(cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE))),
+                                    cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)),
+                                )
+                            )
                         }
+
+                        cp.close()
                     } catch (_: Exception) {
 
                     }
@@ -142,11 +149,16 @@ class ContactsListViewModel : ViewModel() {
                             null,
                         )
 
-                        if (ce != null && ce.moveToFirst()) {
-                            email =
-                                ce.getString(ce.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA))
-                            ce.close()
+                        while (ce!!.moveToNext()) {
+                            email.add(
+                                ContactTypeData(
+                                    getTypeContact(ce.getString(ce.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE))),
+                                    ce.getString(ce.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)),
+                                )
+                            )
                         }
+
+                        ce.close()
                     } catch (_: Exception) {
 
                     }

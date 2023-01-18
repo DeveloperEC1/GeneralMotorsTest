@@ -23,9 +23,10 @@ import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.generalmotorstest.ContactsListGraphDirections
 import com.example.generalmotorstest.data.models.Contacts
 import com.example.generalmotorstest.presentation.pages.fragments.BaseFragment
-import com.example.generalmotorstest.presentation.widgets.ProfileImageContact
+import com.example.generalmotorstest.presentation.widgets.ProfileImageContactWidget
 import com.example.generalmotorstest.presentation.widgets.ProgressDialogWidget
-import com.example.generalmotorstest.presentation.widgets.TextContact
+import com.example.generalmotorstest.presentation.widgets.SpacerWidget
+import com.example.generalmotorstest.presentation.widgets.TextContactWidget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -85,6 +86,7 @@ class ContactsListFragment : BaseFragment() {
                 .fillMaxWidth()
         ) {
             SearchViewTextField()
+            SpacerWidget(20)
 
             if (contactsListViewModel.isLoading.value) {
                 ProgressDialogWidget()
@@ -146,14 +148,15 @@ class ContactsListFragment : BaseFragment() {
                         )
                 },
         ) {
-            ProfileImageContact(contact)
+            ProfileImageContactWidget(contact)
+            SpacerWidget(5)
             PersonNameContact(contact)
         }
     }
 
     @Composable
     private fun PersonNameContact(contact: Contacts) {
-        TextContact("Person Name: ${contact.firstName!!} ${contact.lastName!!}")
+        TextContactWidget("Person Name: ${contact.firstName!!} ${contact.lastName!!}")
     }
     // UI methods - End
 

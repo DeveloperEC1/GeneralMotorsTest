@@ -3,6 +3,8 @@ package com.example.generalmotorstest.presentation.widgets
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,7 +28,12 @@ fun EmptyViewWidget() {
 }
 
 @Composable
-fun TextContact(text: String) {
+fun SpacerWidget(spaceInt: Int) {
+    Spacer(modifier = Modifier.height(spaceInt.dp))
+}
+
+@Composable
+fun TextContactWidget(text: String) {
     Text(
         text,
         fontSize = 20.sp,
@@ -34,7 +41,7 @@ fun TextContact(text: String) {
 }
 
 @Composable
-fun ProfileImageContact(contact: Contacts) {
+fun ProfileImageContactWidget(contact: Contacts) {
     val uri = contact.profileImage
 
     if (uri != null) {
