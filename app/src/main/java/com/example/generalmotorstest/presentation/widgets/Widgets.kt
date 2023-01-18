@@ -23,11 +23,6 @@ import com.example.generalmotorstest.data.models.Contacts
 import com.example.generalmotorstest.presentation.utils.UtilsApp.convertUriToBitmap
 
 @Composable
-fun EmptyViewWidget() {
-
-}
-
-@Composable
 fun SpacerWidget(spaceInt: Int) {
     Spacer(modifier = Modifier.height(spaceInt.dp))
 }

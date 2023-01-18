@@ -12,12 +12,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.generalmotorstest.ContactsListGraphDirections
@@ -68,7 +72,10 @@ class ContactsListFragment : BaseFragment() {
             if (isGranted) {
                 CoroutineScope(Dispatchers.IO).launch {
                     contactsListViewModel.setContactsToContactsList()
+                    contactsListViewModel.permissionIsGranted.value = true
                 }
+            } else {
+                contactsListViewModel.isLoading.value = false
             }
         }
 
@@ -85,14 +92,22 @@ class ContactsListFragment : BaseFragment() {
                 .padding(20.dp)
                 .fillMaxWidth()
         ) {
-            SearchViewTextField()
-            SpacerWidget(20)
-
             if (contactsListViewModel.isLoading.value) {
                 ProgressDialogWidget()
             } else {
-                contactsListViewModel.filterContactsList()
-                ContactsList()
+                if (contactsListViewModel.permissionIsGranted.value) {
+                    contactsListViewModel.filterContactsList()
+
+                    SearchViewTextField()
+                    SpacerWidget(20)
+                    ContactsList()
+                } else {
+                    Text(
+                        "The Permission to get contacts was not granted",
+                        fontSize = 30.sp,
+                        color = Color.Red,
+                    )
+                }
             }
         }
     }
@@ -101,17 +116,19 @@ class ContactsListFragment : BaseFragment() {
     private fun SearchViewTextField() {
         Box(
             modifier = Modifier
+                .height(40.dp)
                 .border(width = 1.dp, color = Color.Gray)
-                .fillMaxWidth(),
+                .fillMaxSize(),
+            contentAlignment = Alignment.CenterStart
         ) {
             BasicTextField(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .fillMaxWidth(),
                 value = contactsListViewModel.searchSrt.value,
                 onValueChange = {
                     contactsListViewModel.searchSrt.value = it
                 },
-                modifier = Modifier
-                    .height(38.dp)
-                    .fillMaxWidth(),
                 singleLine = true,
                 maxLines = 1,
             )

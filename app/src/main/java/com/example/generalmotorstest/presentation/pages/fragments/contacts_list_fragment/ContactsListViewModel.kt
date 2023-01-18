@@ -19,6 +19,7 @@ class ContactsListViewModel : ViewModel() {
     val contactsFilteredList = mutableStateListOf<Contacts>()
     val searchSrt = mutableStateOf("")
     val isLoading = mutableStateOf(true)
+    val permissionIsGranted = mutableStateOf(false)
 
     fun setContactsToContactsList() {
         isLoading.value = true
@@ -37,9 +38,8 @@ class ContactsListViewModel : ViewModel() {
             val resultList = ArrayList<Contacts>()
 
             for (data in contactsList) {
-                if (data.firstName?.lowercase(Locale.getDefault())
-                        ?.contains(searchedText, ignoreCase = true) == true
-                ) {
+                if (data.firstName?.let { searchedTextCondition(it, searchedText) } == true ||
+                    data.lastName?.let { searchedTextCondition(it, searchedText) } == true) {
                     resultList.add(data)
                 }
             }
@@ -48,6 +48,10 @@ class ContactsListViewModel : ViewModel() {
         } else {
             contactsFilteredList.addAll(contactsList)
         }
+    }
+
+    private fun searchedTextCondition(dataText: String, searchedText: String): Boolean {
+        return dataText.lowercase(Locale.getDefault()).contains(searchedText, ignoreCase = true)
     }
 
     @SuppressLint("Range")
