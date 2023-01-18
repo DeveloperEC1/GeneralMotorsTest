@@ -12,7 +12,6 @@ import com.example.generalmotorstest.data.models.Contacts
 import java.util.*
 import kotlin.collections.ArrayList
 
-
 class ContactsListViewModel : ViewModel() {
 
     var contactsList = mutableStateListOf<Contacts>()
