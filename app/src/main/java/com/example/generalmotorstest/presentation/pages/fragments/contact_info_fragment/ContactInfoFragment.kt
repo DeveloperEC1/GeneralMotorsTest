@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import com.example.generalmotorstest.ContactInfoGraphArgs
+import com.example.generalmotorstest.data.models.ContactTypeData
 import com.example.generalmotorstest.presentation.pages.fragments.BaseFragment
 import com.example.generalmotorstest.presentation.widgets.ProfileImageContactWidget
 import com.example.generalmotorstest.presentation.widgets.SpacerWidget
@@ -63,9 +64,9 @@ class ContactInfoFragment : BaseFragment() {
             SpacerWidget(20)
             LastNameContact()
             SpacerWidget(20)
-            PhoneNumberContact()
+            PhonesNumberContact()
             SpacerWidget(20)
-            EmailContact()
+            EmailsContact()
         }
     }
 
@@ -80,29 +81,26 @@ class ContactInfoFragment : BaseFragment() {
     }
 
     @Composable
-    private fun PhoneNumberContact() {
+    private fun PhonesNumberContact() {
         val phoneNumberList = contactInfoViewModel.contactInfo?.phoneNumber!!
 
-        TextContactWidget("Phone Numbers:")
-        SpacerWidget(10)
-        LazyColumn {
-            items(
-                phoneNumberList
-            ) {
-                TextContactWidget("${it.type}: ${it.label}")
-            }
-        }
+        TypeDataListContact("Phone Numbers:", phoneNumberList)
     }
 
     @Composable
-    private fun EmailContact() {
+    private fun EmailsContact() {
         val emailList = contactInfoViewModel.contactInfo?.email!!
 
-        TextContactWidget("Emails:")
+        TypeDataListContact("Emails:", emailList)
+    }
+
+    @Composable
+    private fun TypeDataListContact(title: String, typeDataListContact: List<ContactTypeData>) {
+        TextContactWidget(title)
         SpacerWidget(10)
         LazyColumn {
             items(
-                emailList
+                typeDataListContact
             ) {
                 TextContactWidget("${it.type}: ${it.label}")
             }
