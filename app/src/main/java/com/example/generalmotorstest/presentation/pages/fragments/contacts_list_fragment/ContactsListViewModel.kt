@@ -22,12 +22,13 @@ class ContactsListViewModel : ViewModel() {
     val permissionIsGranted = mutableStateOf(false)
 
     fun setContactsToContactsList() {
-        isLoading.value = true
+        if (contactsList.isEmpty()) {
+            isLoading.value = true
 
-        contactsList.clear()
-        contactsList.addAll(getAllContacts())
+            contactsList.addAll(getAllContacts())
 
-        isLoading.value = false
+            isLoading.value = false
+        }
     }
 
     fun filterContactsList() {
