@@ -2,7 +2,6 @@ package com.example.generalmotorstest.presentation.pages.fragments.contacts_list
 
 import android.Manifest
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +14,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,13 +26,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.example.generalmotorstest.data.models.Contacts
 import com.example.generalmotorstest.presentation.pages.fragments.BaseFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-
+import com.example.generalmotorstest.presentation.widgets.ProgressDialogWidget
 
 class ContactsListFragment : BaseFragment() {
 
@@ -47,18 +40,16 @@ class ContactsListFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         initViewModel()
+        readContactsPermissionRequest()
 
         return ComposeView(requireContext()).apply {
             setContent {
-                LaunchedEffect(Unit, block = {
-                    readContactsPermissionRequest()
-                })
-
                 Body()
             }
         }
     }
 
+    // Logic methods - Start
     private fun initViewModel() {
         contactsListViewModel =
             ViewModelProvider(requireActivity())[ContactsListViewModel::class.java]
@@ -69,9 +60,7 @@ class ContactsListFragment : BaseFragment() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
             if (isGranted) {
-                lifecycleScope.launch {
-                    contactsListViewModel.setContactsToContactsList(contactsListViewModel.getAllContacts())
-                }
+                setContactsToContactsList()
             }
         }
 
@@ -79,6 +68,16 @@ class ContactsListFragment : BaseFragment() {
         requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
     }
 
+    private fun setContactsToContactsList() {
+        contactsListViewModel.setContactsToContactsList()
+    }
+
+    private fun filterContactsList() {
+        contactsListViewModel.searchedItems(contactsListViewModel.searchSrt.value)
+    }
+    // Logic methods - End
+
+    // UI methods - Start
     @Composable
     private fun Body() {
         Column(
@@ -88,11 +87,10 @@ class ContactsListFragment : BaseFragment() {
         ) {
             SearchViewTextField()
 
-            contactsListViewModel.searchedItems(contactsListViewModel.searchSrt.value)
-
             if (contactsListViewModel.isLoading.value) {
-                EmptyView()
+                ProgressDialogWidget()
             } else {
+                filterContactsList()
                 ContactsList()
             }
         }
@@ -121,7 +119,7 @@ class ContactsListFragment : BaseFragment() {
 
     @Composable
     private fun ContactsList() {
-        val contactsList = contactsListViewModel.contactsList
+        val contactsList = contactsListViewModel.contactsFilteredList
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -146,11 +144,7 @@ class ContactsListFragment : BaseFragment() {
             val uri = contact.image
 
             if (uri != null) {
-                val bitmap = try {
-                    MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
-                } catch (error: Throwable) {
-                    null
-                }
+                val bitmap = contactsListViewModel.convertUriToBitmap(uri)
 
                 if (bitmap != null) {
                     Image(
@@ -181,10 +175,6 @@ class ContactsListFragment : BaseFragment() {
             )
         }
     }
-
-    @Composable
-    fun EmptyView() {
-
-    }
+    // UI methods - End
 
 }

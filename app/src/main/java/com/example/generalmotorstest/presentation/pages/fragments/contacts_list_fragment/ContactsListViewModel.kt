@@ -2,35 +2,38 @@ package com.example.generalmotorstest.presentation.pages.fragments.contacts_list
 
 import android.annotation.SuppressLint
 import android.content.ContentUris
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.provider.ContactsContract
+import android.provider.MediaStore
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.generalmotorstest.core.MyApplication
 import com.example.generalmotorstest.data.models.Contacts
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ContactsListViewModel : ViewModel() {
 
-    var contactsList = mutableStateListOf<Contacts>()
-    var searchSrt = mutableStateOf("")
-    var isLoading = mutableStateOf(true)
+    private val contactsList = mutableStateListOf<Contacts>()
+    val contactsFilteredList = mutableStateListOf<Contacts>()
+    val searchSrt = mutableStateOf("")
+    val isLoading = mutableStateOf(true)
 
-    fun setContactsToContactsList(contactsListVar: ArrayList<Contacts>) {
+    fun setContactsToContactsList() {
         isLoading.value = true
 
         contactsList.clear()
-        contactsList.addAll(contactsListVar)
+        contactsList.addAll(getAllContacts())
 
         isLoading.value = false
     }
 
     fun searchedItems(searchedText: String) {
+        contactsFilteredList.clear()
+
         if (searchedText.isNotEmpty()) {
             val resultList = ArrayList<Contacts>()
 
@@ -42,13 +45,9 @@ class ContactsListViewModel : ViewModel() {
                 }
             }
 
-            CoroutineScope(Dispatchers.Main).launch {
-                setContactsToContactsList(resultList)
-            }
+            contactsFilteredList.addAll(resultList)
         } else {
-            CoroutineScope(Dispatchers.Main).launch {
-                setContactsToContactsList(getAllContacts())
-            }
+            contactsFilteredList.addAll(contactsList)
         }
     }
 
@@ -119,22 +118,6 @@ class ContactsListViewModel : ViewModel() {
                     }
 
                     try {
-//                    val ci = cr.query(
-//                        ContactsContract.Data.CONTENT_URI,
-//                        null,
-//                        ContactsContract.Data.CONTACT_ID + "=" + id + " AND "
-//                                + ContactsContract.Data.MIMETYPE + "='"
-//                                + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'",
-//                        null,
-//                        null,
-//                    )
-//
-//                    if (ci != null && ci.moveToFirst()) {
-//                        phone =
-//                            ci.getString(ci.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-//                        ci.close()
-//                    }
-
                         val person = ContentUris.withAppendedId(
                             ContactsContract.Contacts.CONTENT_URI,
                             id.toLong()
@@ -160,6 +143,22 @@ class ContactsListViewModel : ViewModel() {
         }
 
         return contactsModelArr
+    }
+
+    fun convertUriToBitmap(uri: Uri): Bitmap? {
+        val bitmap = try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val source =
+                    ImageDecoder.createSource(MyApplication.application.contentResolver, uri)
+                ImageDecoder.decodeBitmap(source)
+            } else {
+                MediaStore.Images.Media.getBitmap(MyApplication.application.contentResolver, uri)
+            }
+        } catch (error: Throwable) {
+            null
+        }
+
+        return bitmap
     }
 
 }
