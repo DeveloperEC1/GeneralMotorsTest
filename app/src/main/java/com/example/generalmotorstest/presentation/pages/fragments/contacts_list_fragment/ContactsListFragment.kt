@@ -18,16 +18,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.generalmotorstest.ContactsListGraphDirections
+import com.example.generalmotorstest.R
 import com.example.generalmotorstest.data.models.Contacts
 import com.example.generalmotorstest.presentation.pages.fragments.BaseFragment
 import com.example.generalmotorstest.presentation.widgets.ProfileImageContactWidget
 import com.example.generalmotorstest.presentation.widgets.ProgressDialogWidget
-import com.example.generalmotorstest.presentation.widgets.SpacerWidget
+import com.example.generalmotorstest.presentation.widgets.SpacerHeightWidget
 import com.example.generalmotorstest.presentation.widgets.TextContactWidget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +59,7 @@ class ContactsListFragment : BaseFragment() {
         readContactsPermissionRequest()
     }
 
-    // Logic methods - Start
+    // Logic functions - Start
     private fun initViewModel() {
         contactsListViewModel =
             ViewModelProvider(requireActivity())[ContactsListViewModel::class.java]
@@ -80,9 +82,9 @@ class ContactsListFragment : BaseFragment() {
     private fun readContactsPermissionRequest() {
         requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
     }
-    // Logic methods - End
+    // Logic functions - End
 
-    // UI methods - Start
+    // UI functions - Start
     @Composable
     private fun Body() {
         Column(
@@ -97,11 +99,11 @@ class ContactsListFragment : BaseFragment() {
                     contactsListViewModel.filterContactsList()
 
                     SearchViewTextField()
-                    SpacerWidget(20)
+                    SpacerHeightWidget(20)
                     ContactsList()
                 } else {
                     Text(
-                        "The Permission to get contacts was not granted",
+                        stringResource(R.string.read_contacts_permission_not_granted),
                         fontSize = 30.sp,
                         color = Color.Red,
                     )
@@ -164,7 +166,7 @@ class ContactsListFragment : BaseFragment() {
                 },
         ) {
             ProfileImageContactWidget(contact)
-            SpacerWidget(5)
+            SpacerHeightWidget(5)
             PersonNameContact(contact)
         }
     }
@@ -173,6 +175,6 @@ class ContactsListFragment : BaseFragment() {
     private fun PersonNameContact(contact: Contacts) {
         TextContactWidget("Person Name: ${contact.firstName!!} ${contact.lastName!!}")
     }
-    // UI methods - End
+    // UI functions - End
 
 }

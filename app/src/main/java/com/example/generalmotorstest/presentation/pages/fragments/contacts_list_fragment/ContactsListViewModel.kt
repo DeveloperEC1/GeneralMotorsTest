@@ -119,7 +119,7 @@ class ContactsListViewModel : ViewModel() {
                     cn.close()
                     // First Name + Last Name - End
 
-                    // Phone Number - Start
+                    // Phone Numbers - Start
                     try {
                         val cp = cr.query(
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -142,9 +142,9 @@ class ContactsListViewModel : ViewModel() {
                     } catch (_: Exception) {
 
                     }
-                    // Phone Number - End
+                    // Phone Numbers - End
 
-                    // Email - Start
+                    // Emails - Start
                     try {
                         val ce = cr.query(
                             ContactsContract.CommonDataKinds.Email.CONTENT_URI,
@@ -167,7 +167,7 @@ class ContactsListViewModel : ViewModel() {
                     } catch (_: Exception) {
 
                     }
-                    // Email - End
+                    // Emails - End
 
                     // Profile Image - Start
                     try {

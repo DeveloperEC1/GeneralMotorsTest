@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -18,7 +19,8 @@ import com.example.generalmotorstest.ContactInfoGraphArgs
 import com.example.generalmotorstest.data.models.ContactTypeData
 import com.example.generalmotorstest.presentation.pages.fragments.BaseFragment
 import com.example.generalmotorstest.presentation.widgets.ProfileImageContactWidget
-import com.example.generalmotorstest.presentation.widgets.SpacerWidget
+import com.example.generalmotorstest.presentation.widgets.SpacerHeightWidget
+import com.example.generalmotorstest.presentation.widgets.SpacerWidthWidget
 import com.example.generalmotorstest.presentation.widgets.TextContactWidget
 
 class ContactInfoFragment : BaseFragment() {
@@ -40,7 +42,7 @@ class ContactInfoFragment : BaseFragment() {
         }
     }
 
-    // Logic methods - Start
+    // Logic functions - Start
     private fun initViewModel() {
         contactInfoViewModel =
             ViewModelProvider(requireActivity())[ContactInfoViewModel::class.java]
@@ -50,9 +52,9 @@ class ContactInfoFragment : BaseFragment() {
         contactInfoViewModel.contactInfo =
             ContactInfoGraphArgs.fromBundle(requireArguments()).contactsData
     }
-    // Logic methods - End
+    // Logic functions - End
 
-    // UI methods - Start
+    // UI functions - Start
     @Composable
     private fun Body() {
         Column(
@@ -62,13 +64,13 @@ class ContactInfoFragment : BaseFragment() {
                 .fillMaxWidth(),
         ) {
             ProfileImageContactWidget(contactInfoViewModel.contactInfo!!)
-            SpacerWidget(20)
+            SpacerHeightWidget(20)
             FirstNameContact()
-            SpacerWidget(20)
+            SpacerHeightWidget(20)
             LastNameContact()
-            SpacerWidget(20)
+            SpacerHeightWidget(20)
             PhonesNumberContact()
-            SpacerWidget(20)
+            SpacerHeightWidget(20)
             EmailsContact()
         }
     }
@@ -100,13 +102,16 @@ class ContactInfoFragment : BaseFragment() {
     @Composable
     private fun TypeDataListContact(title: String, typeDataListContact: List<ContactTypeData>) {
         TextContactWidget(title)
-        SpacerWidget(5)
+        SpacerHeightWidget(5)
         Column {
             typeDataListContact.forEach { contact ->
-                TextContactWidget("${contact.type}: ${contact.label}")
+                Row {
+                    SpacerWidthWidget(20)
+                    TextContactWidget("${contact.type}: ${contact.label}")
+                }
             }
         }
     }
-    // UI methods - End
+    // UI functions - End
 
 }

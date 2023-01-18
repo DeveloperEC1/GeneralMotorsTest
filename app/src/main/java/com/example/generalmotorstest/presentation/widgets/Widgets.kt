@@ -2,10 +2,7 @@ package com.example.generalmotorstest.presentation.widgets
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
@@ -23,8 +20,13 @@ import com.example.generalmotorstest.data.models.Contacts
 import com.example.generalmotorstest.presentation.utils.UtilsApp.convertUriToBitmap
 
 @Composable
-fun SpacerWidget(spaceInt: Int) {
+fun SpacerHeightWidget(spaceInt: Int) {
     Spacer(modifier = Modifier.height(spaceInt.dp))
+}
+
+@Composable
+fun SpacerWidthWidget(spaceInt: Int) {
+    Spacer(modifier = Modifier.width(spaceInt.dp))
 }
 
 @Composable
