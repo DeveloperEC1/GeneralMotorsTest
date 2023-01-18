@@ -2,12 +2,8 @@ package com.example.generalmotorstest.presentation.pages.fragments.contacts_list
 
 import android.annotation.SuppressLint
 import android.content.ContentUris
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
 import android.provider.ContactsContract
-import android.provider.MediaStore
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -186,22 +182,6 @@ class ContactsListViewModel : ViewModel() {
         }
 
         return contactsModelArr
-    }
-
-    fun convertUriToBitmap(uri: Uri): Bitmap? {
-        val bitmap = try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                val source =
-                    ImageDecoder.createSource(MyApplication.application.contentResolver, uri)
-                ImageDecoder.decodeBitmap(source)
-            } else {
-                MediaStore.Images.Media.getBitmap(MyApplication.application.contentResolver, uri)
-            }
-        } catch (error: Throwable) {
-            null
-        }
-
-        return bitmap
     }
 
 }
