@@ -29,6 +29,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.generalmotorstest.data.models.Contacts
 import com.example.generalmotorstest.presentation.pages.fragments.BaseFragment
 import com.example.generalmotorstest.presentation.widgets.ProgressDialogWidget
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ContactsListFragment : BaseFragment() {
 
@@ -40,13 +43,18 @@ class ContactsListFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         initViewModel()
-        readContactsPermissionRequest()
 
         return ComposeView(requireContext()).apply {
             setContent {
                 Body()
             }
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        readContactsPermissionRequest()
     }
 
     // Logic methods - Start
@@ -60,20 +68,14 @@ class ContactsListFragment : BaseFragment() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
             if (isGranted) {
-                setContactsToContactsList()
+                CoroutineScope(Dispatchers.IO).launch {
+                    contactsListViewModel.setContactsToContactsList()
+                }
             }
         }
 
     private fun readContactsPermissionRequest() {
         requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
-    }
-
-    private fun setContactsToContactsList() {
-        contactsListViewModel.setContactsToContactsList()
-    }
-
-    private fun filterContactsList() {
-        contactsListViewModel.searchedItems(contactsListViewModel.searchSrt.value)
     }
     // Logic methods - End
 
@@ -90,7 +92,7 @@ class ContactsListFragment : BaseFragment() {
             if (contactsListViewModel.isLoading.value) {
                 ProgressDialogWidget()
             } else {
-                filterContactsList()
+                contactsListViewModel.filterContactsList()
                 ContactsList()
             }
         }

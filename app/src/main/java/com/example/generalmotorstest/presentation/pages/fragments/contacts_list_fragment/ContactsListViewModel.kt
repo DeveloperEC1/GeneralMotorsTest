@@ -31,8 +31,9 @@ class ContactsListViewModel : ViewModel() {
         isLoading.value = false
     }
 
-    fun searchedItems(searchedText: String) {
+    fun filterContactsList() {
         contactsFilteredList.clear()
+        val searchedText = searchSrt.value
 
         if (searchedText.isNotEmpty()) {
             val resultList = ArrayList<Contacts>()
