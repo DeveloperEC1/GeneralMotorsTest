@@ -57,7 +57,7 @@ class ContactsListViewModel : ViewModel() {
         val cursor = cr.query(
             ContactsContract.Contacts.CONTENT_URI, arrayOf(
                 ContactsContract.Contacts._ID,
-                ContactsContract.Contacts.HAS_PHONE_NUMBER,
+                ContactsContract.Contacts.HAS_PHONE_NUMBER
             ),
             null, null, null
         )
@@ -81,7 +81,7 @@ class ContactsListViewModel : ViewModel() {
                     val whereNameParams =
                         arrayOf(
                             ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE,
-                            id,
+                            id
                         )
                     val cn = MyApplication.application.contentResolver.query(
                         ContactsContract.Data.CONTENT_URI,
