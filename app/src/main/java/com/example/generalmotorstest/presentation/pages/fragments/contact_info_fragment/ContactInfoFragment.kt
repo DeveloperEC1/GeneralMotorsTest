@@ -69,7 +69,7 @@ class ContactInfoFragment : BaseFragment() {
             SpacerHeightWidget(20)
             LastNameContact()
             SpacerHeightWidget(20)
-            PhonesNumberContact()
+            PhoneNumbersContact()
             SpacerHeightWidget(20)
             EmailsContact()
         }
@@ -86,7 +86,7 @@ class ContactInfoFragment : BaseFragment() {
     }
 
     @Composable
-    private fun PhonesNumberContact() {
+    private fun PhoneNumbersContact() {
         val phoneNumberList = contactInfoViewModel.contactInfo?.phoneNumberList!!
 
         TypeDataListContact("Phone Numbers:", phoneNumberList)

@@ -161,7 +161,9 @@ class ContactsListFragment : BaseFragment() {
                 .clickable {
                     findNavController(this)
                         .navigate(
-                            ContactsListGraphDirections.actionNavigateToContactInfoFragment(contact)
+                            ContactsListGraphDirections.actionNavigateToContactInfoFragment(
+                                contact
+                            )
                         )
                 },
         ) {

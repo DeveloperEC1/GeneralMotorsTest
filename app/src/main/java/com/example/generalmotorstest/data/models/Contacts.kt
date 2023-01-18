@@ -4,11 +4,6 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 
-data class ContactTypeData(
-    var type: String?,
-    var label: String?,
-)
-
 data class Contacts(
     var firstName: String?,
     var lastName: String?,
@@ -20,12 +15,8 @@ data class Contacts(
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
-        arrayListOf<ContactTypeData>().apply {
-            parcel.readList(this, ContactTypeData::class.java.classLoader)
-        },
-        arrayListOf<ContactTypeData>().apply {
-            parcel.readList(this, ContactTypeData::class.java.classLoader)
-        },
+        parcel.createTypedArrayList(ContactTypeData.CREATOR),
+        parcel.createTypedArrayList(ContactTypeData.CREATOR),
         parcel.readParcelable(Uri::class.java.classLoader)
     )
 
