@@ -11,7 +11,7 @@ data class ContactTypeData(
 data class Contacts(
     var firstName: String?,
     var lastName: String?,
-    var phoneNumber: List<ContactTypeData>?,
-    var email: List<ContactTypeData>?,
+    var phoneNumberList: List<ContactTypeData>?,
+    var emailList: List<ContactTypeData>?,
     val profileImage: Uri?,
 ) : Serializable

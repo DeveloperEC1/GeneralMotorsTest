@@ -71,8 +71,8 @@ class ContactsListViewModel : ViewModel() {
                 if (hasPhone > 0) {
                     var firstName = ""
                     var lastName = ""
-                    val phoneNumber: ArrayList<ContactTypeData> = arrayListOf()
-                    val email: ArrayList<ContactTypeData> = arrayListOf()
+                    val phoneNumberList: ArrayList<ContactTypeData> = arrayListOf()
+                    val emailList: ArrayList<ContactTypeData> = arrayListOf()
                     var profileImage: Uri? = null
 
                     // First Name + Last Name - Start
@@ -125,7 +125,7 @@ class ContactsListViewModel : ViewModel() {
                         )
 
                         while (cp!!.moveToNext()) {
-                            phoneNumber.add(
+                            phoneNumberList.add(
                                 ContactTypeData(
                                     getTypeContact(cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE))),
                                     cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)),
@@ -150,7 +150,7 @@ class ContactsListViewModel : ViewModel() {
                         )
 
                         while (ce!!.moveToNext()) {
-                            email.add(
+                            emailList.add(
                                 ContactTypeData(
                                     getTypeContact(ce.getString(ce.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE))),
                                     ce.getString(ce.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)),
@@ -183,8 +183,8 @@ class ContactsListViewModel : ViewModel() {
                     val contact = Contacts(
                         firstName,
                         lastName,
-                        phoneNumber,
-                        email,
+                        phoneNumberList,
+                        emailList,
                         profileImage
                     )
                     contactsModelArr.add(contact)

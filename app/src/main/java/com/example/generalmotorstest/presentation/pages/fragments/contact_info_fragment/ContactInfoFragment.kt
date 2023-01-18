@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
@@ -56,7 +60,8 @@ class ContactInfoFragment : BaseFragment() {
         Column(
             modifier = Modifier
                 .padding(20.dp)
-                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth(),
         ) {
             ProfileImageContactWidget(contactInfoViewModel.contactInfo!!)
             SpacerWidget(20)
@@ -82,14 +87,14 @@ class ContactInfoFragment : BaseFragment() {
 
     @Composable
     private fun PhonesNumberContact() {
-        val phoneNumberList = contactInfoViewModel.contactInfo?.phoneNumber!!
+        val phoneNumberList = contactInfoViewModel.contactInfo?.phoneNumberList!!
 
         TypeDataListContact("Phone Numbers:", phoneNumberList)
     }
 
     @Composable
     private fun EmailsContact() {
-        val emailList = contactInfoViewModel.contactInfo?.email!!
+        val emailList = contactInfoViewModel.contactInfo?.emailList!!
 
         TypeDataListContact("Emails:", emailList)
     }
@@ -97,12 +102,10 @@ class ContactInfoFragment : BaseFragment() {
     @Composable
     private fun TypeDataListContact(title: String, typeDataListContact: List<ContactTypeData>) {
         TextContactWidget(title)
-        SpacerWidget(10)
-        LazyColumn {
-            items(
-                typeDataListContact
-            ) {
-                TextContactWidget("${it.type}: ${it.label}")
+        SpacerWidget(5)
+        Column {
+            typeDataListContact.forEach { contact ->
+                TextContactWidget("${contact.type}: ${contact.label}")
             }
         }
     }
