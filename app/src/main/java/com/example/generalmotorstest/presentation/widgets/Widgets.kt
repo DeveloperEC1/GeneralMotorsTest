@@ -53,6 +53,12 @@ fun ProfileImageContactWidget(contact: Contacts) {
                     .clip(CircleShape)
             )
         } else {
+            var firstNameFirstLetter = ""
+
+            if (contact.firstName!!.isNotEmpty()) {
+                firstNameFirstLetter = contact.firstName!![0].toString()
+            }
+
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -60,7 +66,7 @@ fun ProfileImageContactWidget(contact: Contacts) {
                     .size(50.dp),
             ) {
                 Text(
-                    contact.firstName!![0].toString(),
+                    firstNameFirstLetter,
                     textAlign = TextAlign.Center,
                 )
             }
