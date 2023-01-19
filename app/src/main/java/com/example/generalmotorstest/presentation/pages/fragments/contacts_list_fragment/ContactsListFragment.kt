@@ -137,15 +137,13 @@ class ContactsListFragment : BaseFragment() {
 
     @Composable
     private fun ContactsList() {
-        val contactsList = contactsListViewModel.contactsFilteredList
-
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(vertical = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items(
-                contactsList
+                contactsListViewModel.contactsFilteredList
             ) {
                 ContactItem(contact = it)
             }
