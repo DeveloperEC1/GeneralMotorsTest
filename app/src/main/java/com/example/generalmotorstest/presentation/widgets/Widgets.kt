@@ -39,38 +39,26 @@ fun TextContactWidget(text: String) {
 
 @Composable
 fun ProfileImageContactWidget(contact: Contacts) {
-    val uri = contact.profileImage
+    val bitmap = contact.profileImage?.let { convertUriToBitmap(it) }
 
-    if (uri != null) {
-        val bitmap = convertUriToBitmap(uri)
-
-        if (bitmap != null) {
-            Image(
-                bitmap = bitmap.asImageBitmap(),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(50.dp)
-                    .clip(CircleShape)
-            )
-        } else {
-            var firstNameFirstLetter = ""
-
-            if (contact.firstName!!.isNotEmpty()) {
-                firstNameFirstLetter = contact.firstName!![0].toString()
-            }
-
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .background(Color.Cyan, shape = CircleShape)
-                    .size(50.dp),
-            ) {
-                Text(
-                    firstNameFirstLetter,
-                    textAlign = TextAlign.Center,
-                )
-            }
-        }
+    bitmap?.let {
+        Image(
+            bitmap = it.asImageBitmap(),
+            contentDescription = null,
+            modifier = Modifier
+                .size(50.dp)
+                .clip(CircleShape)
+        )
+    } ?: Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .background(Color.Cyan, shape = CircleShape)
+            .size(50.dp)
+    ) {
+        Text(
+            contact.firstName?.firstOrNull()?.toString() ?: "",
+            textAlign = TextAlign.Center
+        )
     }
 }
 
