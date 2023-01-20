@@ -5,6 +5,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Contacts(
+    var fullName: String?,
     var firstName: String?,
     var lastName: String?,
     var phoneNumberList: ArrayList<ContactTypeData>?,
@@ -15,12 +16,14 @@ data class Contacts(
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
         parcel.createTypedArrayList(ContactTypeData.CREATOR),
         parcel.createTypedArrayList(ContactTypeData.CREATOR),
         parcel.readParcelable(Uri::class.java.classLoader)
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(fullName)
         parcel.writeString(firstName)
         parcel.writeString(lastName)
         parcel.writeList(phoneNumberList)
