@@ -73,7 +73,7 @@ class ContactsListViewModel : ViewModel() {
                     cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))
 
                 if (hasPhone > 0) {
-                    var personName = ""
+                    var personName: String
                     var firstName = ""
                     var lastName = ""
                     val phoneNumberList: ArrayList<ContactTypeData> = arrayListOf()
