@@ -71,9 +71,9 @@ class ContactInfoFragment : BaseFragment() {
             SpacerHeightWidget(20)
             LastNameContact()
             SpacerHeightWidget(20)
-            PhoneNumbersContact()
+            PhoneNumberListContact()
             SpacerHeightWidget(20)
-            EmailsContact()
+            EmailListContact()
         }
     }
 
@@ -88,17 +88,19 @@ class ContactInfoFragment : BaseFragment() {
     }
 
     @Composable
-    private fun PhoneNumbersContact() {
-        val phoneNumberList = contactInfoViewModel.contactInfo?.phoneNumberList!!
-
-        TypeDataListContact("${stringResource(R.string.phone_numbers)}:", phoneNumberList)
+    private fun PhoneNumberListContact() {
+        TypeDataListContact(
+            "${stringResource(R.string.phone_numbers)}:",
+            contactInfoViewModel.contactInfo?.phoneNumberList!!
+        )
     }
 
     @Composable
-    private fun EmailsContact() {
-        val emailList = contactInfoViewModel.contactInfo?.emailList!!
-
-        TypeDataListContact("${stringResource(R.string.emails)}:", emailList)
+    private fun EmailListContact() {
+        TypeDataListContact(
+            "${stringResource(R.string.emails)}:",
+            contactInfoViewModel.contactInfo?.emailList!!
+        )
     }
 
     @Composable
