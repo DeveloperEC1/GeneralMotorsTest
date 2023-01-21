@@ -6,6 +6,15 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import com.example.generalmotorstest.R
+import com.example.generalmotorstest.core.Constants.Companion.CALLBACK
+import com.example.generalmotorstest.core.Constants.Companion.CUSTOM
+import com.example.generalmotorstest.core.Constants.Companion.HOME
+import com.example.generalmotorstest.core.Constants.Companion.HOME_FAX
+import com.example.generalmotorstest.core.Constants.Companion.MOBILE
+import com.example.generalmotorstest.core.Constants.Companion.OTHER
+import com.example.generalmotorstest.core.Constants.Companion.PAGER
+import com.example.generalmotorstest.core.Constants.Companion.WORK
+import com.example.generalmotorstest.core.Constants.Companion.WORK_FAX
 import com.example.generalmotorstest.core.MyApplication
 
 object UtilsApp {
@@ -27,21 +36,21 @@ object UtilsApp {
     }
 
     fun getTypeContact(typeNum: String): String {
-        var type = MyApplication.application.getString(R.string.custom)
+        var stringId = R.string.unknown
 
         when (typeNum) {
-            "1" -> type = MyApplication.application.getString(R.string.home)
-            "2" -> type = MyApplication.application.getString(R.string.mobile)
-            "3" -> type = MyApplication.application.getString(R.string.work)
-            "4" -> type = MyApplication.application.getString(R.string.work_fax)
-            "5" -> type = MyApplication.application.getString(R.string.home_fax)
-            "6" -> type = MyApplication.application.getString(R.string.pager)
-            "7" -> type = MyApplication.application.getString(R.string.other)
-            "8" -> type = MyApplication.application.getString(R.string.callback)
-            "9" -> type = MyApplication.application.getString(R.string.custom)
+            HOME -> stringId = R.string.home
+            MOBILE -> stringId = R.string.mobile
+            WORK -> stringId = R.string.work
+            WORK_FAX -> stringId = R.string.work_fax
+            HOME_FAX -> stringId = R.string.home_fax
+            PAGER -> stringId = R.string.pager
+            OTHER -> stringId = R.string.other
+            CALLBACK -> stringId = R.string.callback
+            CUSTOM -> stringId = R.string.custom
         }
 
-        return type
+        return MyApplication.application.getString(stringId)
     }
 
 }

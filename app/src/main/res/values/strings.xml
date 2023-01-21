@@ -15,4 +15,5 @@
     <string name="other">Other</string>
     <string name="callback">Callback</string>
     <string name="custom">Custom</string>
+    <string name="unknown">Unknown</string>
 </resources>
