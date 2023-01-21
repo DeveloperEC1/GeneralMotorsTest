@@ -173,7 +173,7 @@ class ContactsListFragment : BaseFragment() {
 
     @Composable
     private fun PersonNameContact(contact: Contacts) {
-        TextContactWidget("${stringResource(R.string.full_name)}: ${contact.fullName!!}")
+        TextContactWidget("${stringResource(R.string.person_name)}: ${contact.personName!!}")
     }
     // UI functions - End
 

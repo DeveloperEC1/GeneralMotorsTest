@@ -39,7 +39,7 @@ class ContactsListViewModel : ViewModel() {
             val resultList = ArrayList<Contacts>()
 
             for (data in contactsList) {
-                if (data.fullName?.let { searchedTextCondition(it, searchedText) } == true) {
+                if (data.personName?.let { searchedTextCondition(it, searchedText) } == true) {
                     resultList.add(data)
                 }
             }
@@ -62,7 +62,6 @@ class ContactsListViewModel : ViewModel() {
             ContactsContract.Contacts.CONTENT_URI, arrayOf(
                 ContactsContract.Contacts._ID,
                 ContactsContract.Contacts.HAS_PHONE_NUMBER,
-                ContactsContract.Contacts.DISPLAY_NAME
             ),
             null, null, null
         )
@@ -74,8 +73,7 @@ class ContactsListViewModel : ViewModel() {
                     cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))
 
                 if (hasPhone > 0) {
-                    val fullName =
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                    var personName = ""
                     var firstName = ""
                     var lastName = ""
                     val phoneNumberList: ArrayList<ContactTypeData> = arrayListOf()
@@ -117,6 +115,8 @@ class ContactsListViewModel : ViewModel() {
                         }
                         // Last Name - End
                     }
+
+                    personName = "$firstName $lastName".trim()
 
                     cn.close()
                     // First Name + Last Name - End
@@ -188,7 +188,7 @@ class ContactsListViewModel : ViewModel() {
                     // Profile Image - End
 
                     val contact = Contacts(
-                        fullName,
+                        personName,
                         firstName,
                         lastName,
                         phoneNumberList,

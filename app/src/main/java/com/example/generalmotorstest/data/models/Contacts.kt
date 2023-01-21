@@ -5,7 +5,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Contacts(
-    var fullName: String?,
+    var personName: String?,
     var firstName: String?,
     var lastName: String?,
     var phoneNumberList: ArrayList<ContactTypeData>?,
@@ -23,7 +23,7 @@ data class Contacts(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(fullName)
+        parcel.writeString(personName)
         parcel.writeString(firstName)
         parcel.writeString(lastName)
         parcel.writeList(phoneNumberList)

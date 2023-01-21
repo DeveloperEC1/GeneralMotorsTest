@@ -56,7 +56,7 @@ fun ProfileImageContactWidget(contact: Contacts) {
             .size(50.dp)
     ) {
         Text(
-            contact.firstName?.firstOrNull()?.toString() ?: "",
+            contact.personName?.firstOrNull()?.toString() ?: "",
             textAlign = TextAlign.Center
         )
     }
