@@ -122,53 +122,53 @@ class ContactsListViewModel : ViewModel() {
                     // First Name + Last Name - End
 
                     // Phone Numbers - Start
-                    try {
-                        val cp = cr.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            arrayOf(id),
-                            null,
-                        )
+                    val cp = cr.query(
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                        null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                        arrayOf(id),
+                        null,
+                    )
 
-                        while (cp!!.moveToNext()) {
+                    while (cp!!.moveToNext()) {
+                        try {
                             phoneNumberList.add(
                                 ContactTypeData(
                                     getTypeContact(cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE))),
                                     cp.getString(cp.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)),
                                 )
                             )
+                        } catch (_: Exception) {
+
                         }
-
-                        cp.close()
-                    } catch (_: Exception) {
-
                     }
+
+                    cp.close()
                     // Phone Numbers - End
 
                     // Emails - Start
-                    try {
-                        val ce = cr.query(
-                            ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
-                            arrayOf(id),
-                            null,
-                        )
+                    val ce = cr.query(
+                        ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                        null,
+                        ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
+                        arrayOf(id),
+                        null,
+                    )
 
-                        while (ce!!.moveToNext()) {
+                    while (ce!!.moveToNext()) {
+                        try {
                             emailList.add(
                                 ContactTypeData(
                                     getTypeContact(ce.getString(ce.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE))),
                                     ce.getString(ce.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)),
                                 )
                             )
+                        } catch (_: Exception) {
+
                         }
-
-                        ce.close()
-                    } catch (_: Exception) {
-
                     }
+
+                    ce.close()
                     // Emails - End
 
                     // Profile Image - Start
